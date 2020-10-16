@@ -8,12 +8,14 @@ import selenium
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-path = 'C:/Users/joshs/scraper/chromedriver.exe'
+
+path = 'C:/Users/joshs/scraper/joshstuff/chromedriver.exe'
 driver = webdriver.Chrome(path)
 
 def worldOMeter():
     
     url = 'https://www.worldometers.info/coronavirus/usa/maryland/'
+    driver.implicitly_wait(10)
     driver.get(url)
     
     
@@ -39,15 +41,18 @@ def cdcGovStats():
     
     
     url2 = 'https://covidtracking.com/data/state/maryland/cases'
+    driver.implicitly_wait(10)
     driver.get(url2)
     
+    updated_date = driver.find_element_by_xpath("((//td)/span)[2]")
     current_cdc_cases = driver.find_element_by_xpath("((//td)[2]/span)[2]")
     cases_today = driver.find_element_by_xpath("((//td)[3]/span)[2]")
     
+    date_updated = updated_date.text
     todaysCases = cases_today.text
     cdc_total_confirmed = current_cdc_cases.text
     
-    
+    print("update date: " + date_updated)
     
     print("cdc's updated numbers for MD: " + cdc_total_confirmed )
    
@@ -58,7 +63,9 @@ def cdcGovStats():
 def baltimoreCity_Data():
     
     url3 = 'https://coronavirus.maryland.gov/'
+    driver.implicitly_wait(10)
     driver.get(url3)
+
     
     baltimore_city_cases = driver.find_element_by_xpath("((//table[@class='topBlackBoxTable']/tbody/tr)[4]/td)[2]")
     baltimore_city_deaths = driver.find_element_by_xpath("((//table[@class='topBlackBoxTable']/tbody/tr)[4]/td)[3]")
